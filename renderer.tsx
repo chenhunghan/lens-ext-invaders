@@ -58,7 +58,7 @@ export default class RendererExtension extends LensRendererExtension {
         params: {}
       },
       components: {
-        Icon: (): JSX.Element => <Icon material="pages" />,
+        Icon: (): JSX.Element => <Icon material="my_location" />,
       }
     },
   ]

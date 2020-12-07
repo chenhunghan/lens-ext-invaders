@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import p5 from 'p5';
 
 const sketch = (p: p5) => {
@@ -15,10 +15,9 @@ const sketch = (p: p5) => {
     };
 };
 
+new p5(sketch);
+
 const ClusterPage = (): JSX.Element => {
-    useEffect(() => {
-        new p5(sketch);
-    }, [])
     return (
         <>
         </>

@@ -7,13 +7,22 @@ module.exports = [
     entry: "./main.ts",
     context: __dirname,
     target: "electron-main",
-    mode: "production",
+    mode: "development",
+    devtool: "eval-source-map",
     module: {
       rules: [
         {
           test: /\.tsx?$/,
-          use: "ts-loader",
+          use: [
+            {
+              loader: "ts-loader",
+              options: {
+                transpileOnly: true,
+              }
+            }
+          ],
           exclude: /node_modules/,
+          
         },
       ],
     },
@@ -24,6 +33,9 @@ module.exports = [
         "react": "var global.React"
       }
     ],
+    optimization: {
+      minimize: false,
+    },
     resolve: {
       extensions: [".tsx", ".ts", ".js"],
     },
@@ -37,15 +49,26 @@ module.exports = [
     entry: "./renderer.tsx",
     context: __dirname,
     target: "electron-renderer",
-    mode: "production",
+    mode: "development",
+    devtool: "eval-source-map",
     module: {
       rules: [
         {
           test: /\.tsx?$/,
-          use: "ts-loader",
+          use: [
+            {
+              loader: "ts-loader",
+              options: {
+                transpileOnly: true,
+              }
+            }
+          ],
           exclude: /node_modules/,
         },
       ],
+    },
+    optimization: {
+      minimize: false,
     },
     externals: [
       {

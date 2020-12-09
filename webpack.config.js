@@ -22,7 +22,7 @@ module.exports = [
             }
           ],
           exclude: /node_modules/,
-          
+
         },
       ],
     },
@@ -30,7 +30,8 @@ module.exports = [
       {
         "@k8slens/extensions": "var global.LensExtensions",
         "mobx": "var global.Mobx",
-        "react": "var global.React"
+        "react": "var global.React",
+        "mobx-react": "var global.MobxReact"
       }
     ],
     optimization: {

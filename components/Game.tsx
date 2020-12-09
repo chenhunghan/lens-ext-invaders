@@ -52,16 +52,7 @@ const Game = memo(({ pods }: Props): JSX.Element => {
 
   return (
     <div className="flex column gaps align-flex-start">
-      <div id='p5_canvas_container'>
-        
-      </div>
-      <div>
-        {pods.map((pod) => {
-          return (
-            <span key={pod.metadata.name}>{pod.metadata.name}</span>
-          )
-        })}
-      </div>
+      <div id='p5_canvas_container' />
     </div>
   )
 })

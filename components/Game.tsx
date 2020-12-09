@@ -5,6 +5,8 @@ import Invaders from "./Invaders";
 import Player from "./Player";
 type Props = { pods: Array<K8sApi.Pod> }
 
+let keyboardEvenListener: (ev: KeyboardEvent) => void
+
 const sketch = (pods: Array<K8sApi.Pod>) => (p: p5) => {
   
   const playerImage = p.loadImage("https://i.imgur.com/cCmEvHN.png");
@@ -18,6 +20,26 @@ const sketch = (pods: Array<K8sApi.Pod>) => (p: p5) => {
     p.frameRate(24);
     invaders = new Invaders(alienImage, p, pods.length);
     player = new Player(playerImage, p, invaders);
+
+    const bind = ({ code }: { code: string }) => {
+      switch (code) {
+      case "ArrowRight":
+        player.moveRight()
+        break;
+      case "ArrowLeft":
+        player.moveLeft()
+        break;
+      case "Space":
+        console.info("🔫🔫🔫 You humans!")
+        player.shoot()
+        break;
+      default:
+        break;
+      }
+    };
+
+    document.addEventListener("keydown", bind);
+    keyboardEvenListener = bind;
   }
 
   p.setup = () => {
@@ -44,6 +66,7 @@ const Game = memo(({ pods }: Props): JSX.Element => {
   const [init, setInit] = useState(false);
   useLayoutEffect(() => {
     if (!init) {
+      keyboardEvenListener && document.removeEventListener("keydown", keyboardEvenListener)
       new p5(sketch(pods), document.getElementById("p5_canvas_container"));
       console.info("👾 P5 Canvas Injected");
       setInit(true)

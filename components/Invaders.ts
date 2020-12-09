@@ -117,7 +117,7 @@ class Invaders {
       const aliens = [];
       let y = 40;
       for (let i = 0; i < this.rowsCount; i++) {
-        for (let x = 40; x < this.p5.windowWidth - 40; x += 30) {
+        for (let x = 300; x < this.p5.windowWidth - 200; x += 30) {
           aliens.push(new Alien(x, y, this.image, this.p5));
         }
         y += 40;

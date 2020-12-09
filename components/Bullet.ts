@@ -18,7 +18,7 @@ class Bullet {
     
   draw(): void {
     this.p5.fill(255);
-    this.p5.rect(this.x, this.y, 3, 10);
+    this.p5.rect(this.x, this.y, 3, 15);
   }
 
   hasHit(player: Player): boolean {

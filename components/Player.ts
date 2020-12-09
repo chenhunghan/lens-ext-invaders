@@ -22,7 +22,7 @@ class Player {
     this.bullets = [];
     this.p5 = p5;
     this.x = this.p5.windowWidth / 2;
-    this.y = this.p5.windowHeight - 30;
+    this.y = this.p5.windowHeight - 100;
     this.invaders = invaders;
     this.lives = 3;
     this.score = 0;

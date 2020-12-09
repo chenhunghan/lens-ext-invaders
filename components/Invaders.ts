@@ -4,9 +4,11 @@ import AlienBullet from "./AlienBullet";
 import Bullet from "./Bullet";
 import Player from "./Player";
 import { K8sApi } from "@k8slens/extensions";
+import { IObservableArray } from "mobx";
+
 
 class Invaders {
-    
+
     image: Image;
     direction: number;
     y: number;
@@ -17,7 +19,7 @@ class Invaders {
     p5: p5;
     pods: Array<K8sApi.Pod>;
 
-    constructor(image: Image, p5: p5, pods: Array<K8sApi.Pod>) {
+    constructor(image: Image, p5: p5, pods: IObservableArray<K8sApi.Pod>) {
       this.image = image;
       this.direction = 0;
       this.y = 40;
@@ -33,7 +35,7 @@ class Invaders {
 
     update(player: Player): void {
 
-      this.updateAliens();
+      this.aliens = this.updateAliens();
 
       for (const alien of this.aliens) {
         if (this.direction == 0) {
@@ -143,7 +145,7 @@ class Invaders {
         const currentAlien = this.aliens[i];
         // the numbers are hard-coded for the width of the image
         if (this.p5.dist(x, y, currentAlien.x + 15.5, currentAlien.y + 12) < 10) {
-          this.aliens.splice(i, 1);
+          currentAlien.pod.delete();
           return true;
         }
       }

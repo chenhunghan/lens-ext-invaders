@@ -3,9 +3,14 @@ import { K8sApi } from "@k8slens/extensions";
 import p5 from "p5";
 import Invaders from "./Invaders";
 import Player from "./Player";
+import Particle from "./Particle";
+
 type Props = { pods: Array<K8sApi.Pod> }
 
 let keyboardEvenListener: (ev: KeyboardEvent) => void
+
+// an array to add multiple particles
+const particles: Array<Particle> = [];
 
 const sketch = (pods: Array<K8sApi.Pod>) => (p: p5) => {
   
@@ -15,6 +20,8 @@ const sketch = (pods: Array<K8sApi.Pod>) => (p: p5) => {
   let invaders: Invaders;
   let player: Player;
   
+  let enableParticles = false;
+
   const setup = () => {
     p.createCanvas(p.windowWidth, p.windowHeight);
     p.frameRate(24);
@@ -22,6 +29,7 @@ const sketch = (pods: Array<K8sApi.Pod>) => (p: p5) => {
     player = new Player(playerImage, p, invaders);
 
     const bind = ({ code }: { code: string }) => {
+      console.info("code", code)
       switch (code) {
       case "ArrowRight":
         player.moveRight()
@@ -33,6 +41,10 @@ const sketch = (pods: Array<K8sApi.Pod>) => (p: p5) => {
         console.info("🔫🔫🔫 You humans!")
         player.shoot()
         break;
+      case "KeyS":
+        enableParticles = !enableParticles;
+        console.info("enableParticles", enableParticles)
+        break;
       default:
         break;
       }
@@ -40,6 +52,10 @@ const sketch = (pods: Array<K8sApi.Pod>) => (p: p5) => {
 
     document.addEventListener("keydown", bind);
     keyboardEvenListener = bind;
+
+    for (let i = 0; i < p.windowWidth / 10; i++) {
+      particles.push(new Particle(p));
+    }
   }
 
   p.setup = () => {
@@ -57,6 +73,14 @@ const sketch = (pods: Array<K8sApi.Pod>) => (p: p5) => {
 
     if (player.lives == 0) {
       setup();
+    }
+
+    if (enableParticles) {
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].createParticle();
+        particles[i].moveParticle();
+        particles[i].joinParticles(particles.slice(i));
+      }
     }
   };
 };

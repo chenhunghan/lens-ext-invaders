@@ -40,7 +40,7 @@ const sketch = (pods: Array<K8sApi.Pod>) => (p: p5) => {
 };
 
 const Game = memo(({ pods }: Props): JSX.Element => {
-  console.log("pods.length", pods.length)
+  
   const [init, setInit] = useState(false);
   useLayoutEffect(() => {
     if (!init) {
@@ -49,11 +49,6 @@ const Game = memo(({ pods }: Props): JSX.Element => {
       setInit(true)
     }
   }, [init, pods]);
-
-  // make sure 
-  useEffect(() => {
-    global.pods = pods;
-  }, [pods])
 
   return (
     <div className="flex column gaps align-flex-start">

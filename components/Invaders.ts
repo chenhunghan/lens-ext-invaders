@@ -3,11 +3,11 @@ import p5 from "p5";
 import AlienBullet from "./AlienBullet";
 import Bullet from "./Bullet";
 import Player from "./Player";
+import { K8sApi } from "@k8slens/extensions";
 
 class Invaders {
     
     image: Image;
-    rowsCount: number;
     direction: number;
     y: number;
     aliens: Array<Alien>;
@@ -15,22 +15,25 @@ class Invaders {
     speed: number;
     timeSinceLastBullet: number;
     p5: p5;
+    pods: Array<K8sApi.Pod>;
 
-    constructor(image: Image, p5: p5, rowsCount: number) {
+    constructor(image: Image, p5: p5, pods: Array<K8sApi.Pod>) {
       this.image = image;
-      this.rowsCount = rowsCount;
       this.direction = 0;
       this.y = 40;
       this.p5 = p5;
-      this.aliens = this.initialiseAliens();
       this.bullets = [];
       this.speed = 0.2;
+      this.pods = pods;
+      this.aliens = this.updateAliens();
 
       // to make sure the aliens dont spam
       this.timeSinceLastBullet = 0;
     }
 
     update(player: Player): void {
+
+      this.updateAliens();
 
       for (const alien of this.aliens) {
         if (this.direction == 0) {
@@ -101,7 +104,7 @@ class Invaders {
 
     nextLevel(): void {
       this.speed += 0.5;
-      this.aliens = this.initialiseAliens();
+      this.aliens = this.updateAliens();
     }
 
     // get all the x positions for a single frame
@@ -113,15 +116,25 @@ class Invaders {
       return allXPositions
     }
 
-    initialiseAliens(): Array<Alien> {
-      const aliens = [];
+    updateAliens(): Array<Alien> {
+
+      const aliens: Array<Alien> = [];
       let y = 80;
-      for (let i = 0; i < this.rowsCount; i++) {
-        for (let x = 300; x < this.p5.windowWidth - 200; x += 50) {
-          aliens.push(new Alien(x, y, this.image, this.p5));
-        }
+
+      const maxX = this.p5.windowWidth - 200;
+      const minX = 300;
+      const gapX = 50;
+      const perRow = Math.ceil((maxX - minX) / gapX);
+      const rows = Math.ceil(this.pods.length / perRow);
+      const xPos = (index: number): number => minX + (index % perRow)* gapX
+
+      for (let i = 0; i < rows; i++) {
+        this.pods.forEach((pod, index) => {
+          aliens.push(new Alien(xPos(index), y, this.image, this.p5, pod))
+        })
         y += 50;
       }
+
       return aliens;
     }
 

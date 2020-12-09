@@ -1,4 +1,4 @@
-import React, { memo, useState, useLayoutEffect, useEffect } from "react"
+import React, { memo, useState, useLayoutEffect } from "react"
 import { K8sApi } from "@k8slens/extensions";
 import p5 from "p5";
 import Invaders from "./Invaders";
@@ -18,7 +18,7 @@ const sketch = (pods: Array<K8sApi.Pod>) => (p: p5) => {
   const setup = () => {
     p.createCanvas(p.windowWidth, p.windowHeight);
     p.frameRate(24);
-    invaders = new Invaders(alienImage, p, pods.length);
+    invaders = new Invaders(alienImage, p, pods);
     player = new Player(playerImage, p, invaders);
 
     const bind = ({ code }: { code: string }) => {

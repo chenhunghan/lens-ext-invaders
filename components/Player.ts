@@ -70,7 +70,7 @@ class Player {
   }
 
   draw(): void {
-    this.p5.image(this.image, this.x, this.y, this.image.width / 20, this.image.height / 20);
+    this.p5.image(this.image, this.x, this.y, this.image.width / 10, this.image.height / 10);
     this.drawBullets();
     this.drawLives();
     this.drawScore();

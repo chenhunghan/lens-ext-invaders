@@ -115,12 +115,12 @@ class Invaders {
 
     initialiseAliens(): Array<Alien> {
       const aliens = [];
-      let y = 40;
+      let y = 80;
       for (let i = 0; i < this.rowsCount; i++) {
-        for (let x = 300; x < this.p5.windowWidth - 200; x += 30) {
+        for (let x = 300; x < this.p5.windowWidth - 200; x += 50) {
           aliens.push(new Alien(x, y, this.image, this.p5));
         }
-        y += 40;
+        y += 50;
       }
       return aliens;
     }
@@ -129,7 +129,7 @@ class Invaders {
       for (let i = this.aliens.length - 1; i >= 0; i--) {
         const currentAlien = this.aliens[i];
         // the numbers are hard-coded for the width of the image
-        if (this.p5.dist(x, y, currentAlien.x + 11.5, currentAlien.y + 8) < 10) {
+        if (this.p5.dist(x, y, currentAlien.x + 15.5, currentAlien.y + 12) < 10) {
           this.aliens.splice(i, 1);
           return true;
         }

@@ -17,7 +17,7 @@ class Alien {
   }
 
   draw(): void {
-    this.p5.image(this.image, this.x, this.y, this.image.width / 30, this.image.height / 30);
+    this.p5.image(this.image, this.x, this.y, this.image.width / 20, this.image.height / 20);
   }
 }
 

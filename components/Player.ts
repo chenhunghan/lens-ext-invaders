@@ -14,15 +14,15 @@ class Player {
   invaders: Invaders;
   lives: number;
   score: number;
-  
+
   constructor(shooterImage: Image, p5: p5, invaders: Invaders) {
     this.image = shooterImage;
     this.isMovingLeft = false;
     this.isMovingRight = false;
     this.bullets = [];
     this.p5 = p5;
-    this.x = this.p5.windowWidth / 2;
-    this.y = this.p5.windowHeight - 100;
+    this.x = this.p5.width / 2;
+    this.y = this.p5.height - 40;
     this.invaders = invaders;
     this.lives = 3;
     this.score = 0;
@@ -64,8 +64,8 @@ class Player {
   constrain(): void {
     if (this.x <= 0) {
       this.x = 0;
-    } else if (this.x > this.p5.windowWidth - 23) {
-      this.x = this.p5.windowWidth - 23;
+    } else if (this.x > this.p5.width - 23) {
+      this.x = this.p5.width - 23;
     }
   }
 
@@ -85,17 +85,17 @@ class Player {
   drawLives(): void {
     this.p5.fill(255);
     this.p5.textSize(15);
-    this.p5.text("LIVES", 250, 25);
+    this.p5.text("LIVES", 50, 25);
     for (let i = 0; i < this.lives; i++) {
-      this.p5.image(this.image, 300 + i * 30, 10, this.image.width / 20, this.image.height / 20);
+      this.p5.image(this.image, 100 + i * 30, 10, this.image.width / 20, this.image.height / 20);
     }
   }
 
   drawScore(): void {
-    this.p5.text("SCORE", 1250, 25);
+    this.p5.text("SCORE", this.p5.width - 120, 25);
     this.p5.push();
     this.p5.fill(100, 255, 100);
-    this.p5.text(this.score, 1310, 25);
+    this.p5.text(this.score, this.p5.width - 50, 25);
     this.p5.pop();
   }
 

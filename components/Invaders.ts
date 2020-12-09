@@ -12,7 +12,7 @@ class Invaders {
     image: Image;
     direction: number;
     y: number;
-    aliens: Array<Alien>;
+    aliens: Array<Alien> = [];
     bullets: Array<Bullet>;
     speed: number;
     timeSinceLastBullet: number;
@@ -27,7 +27,7 @@ class Invaders {
       this.bullets = [];
       this.speed = 0.2;
       this.pods = pods;
-      this.aliens = this.updateAliens();
+      this.createAliens();
 
       // to make sure the aliens dont spam
       this.timeSinceLastBullet = 0;
@@ -35,7 +35,7 @@ class Invaders {
 
     update(player: Player): void {
 
-      this.aliens = this.updateAliens();
+      this.updateAliens();
 
       for (const alien of this.aliens) {
         if (this.direction == 0) {
@@ -47,7 +47,7 @@ class Invaders {
       this.updateBullets(player);
 
       if (this.hasChangedDirection()) {
-        this.moveAlienDown();
+        //this.moveAlienDown();
       }
 
       if (this.timeSinceLastBullet >= 40) {
@@ -66,7 +66,7 @@ class Invaders {
 
     hasChangedDirection(): boolean {
       for (const alien of this.aliens) {
-        if (alien.x >= this.p5.windowWidth - 40) {
+        if (alien.x >= this.p5.width - 40) {
           this.direction = 1;
           return true;
         } else if (alien.x <= 20) {
@@ -106,7 +106,7 @@ class Invaders {
 
     nextLevel(): void {
       this.speed += 0.5;
-      this.aliens = this.updateAliens();
+      this.updateAliens();
     }
 
     // get all the x positions for a single frame
@@ -118,26 +118,63 @@ class Invaders {
       return allXPositions
     }
 
-    updateAliens(): Array<Alien> {
-
-      const aliens: Array<Alien> = [];
+    createAliens(): void {
       let y = 80;
 
-      const maxX = this.p5.windowWidth - 200;
+      const maxX = this.p5.width - 200;
       const minX = 300;
       const gapX = 50;
       const perRow = Math.ceil((maxX - minX) / gapX);
       const rows = Math.ceil(this.pods.length / perRow);
       const xPos = (index: number): number => minX + (index % perRow)* gapX
 
+
       for (let i = 0; i < rows; i++) {
         this.pods.forEach((pod, index) => {
-          aliens.push(new Alien(xPos(index), y, this.image, this.p5, pod))
+          this.aliens.push(new Alien(xPos(index), y, this.image, this.p5, pod));
         })
         y += 50;
       }
+    }
 
-      return aliens;
+    updateAliens(): void {
+      let y = 80;
+
+      const maxX = this.p5.width - 200;
+      const minX = 300;
+      const gapX = 50;
+
+      const newPods: K8sApi.Pod[] = []
+      this.pods.forEach((pod: K8sApi.Pod) => {
+        const alien = this.aliens.find((a) => a.pod.getId() === pod.getId())
+        if(!alien) {
+          newPods.push(pod);
+        }
+      })
+
+      const podIds = this.pods.map((p) => p.getId());
+
+      this.aliens.forEach((alien, index) => {
+        if (!podIds.includes(alien.pod.getId())) {
+          this.aliens.splice(index, 1);
+        }
+      })
+
+      if(newPods.length > 0) {
+        let x = minX;
+        newPods.forEach((pod) => {
+          const lastAlien = this.aliens[this.aliens.length - 1];
+          if (lastAlien) {
+            x = lastAlien.x + gapX;
+            y = lastAlien.y;
+            if (x >= maxX) {
+              x = minX;
+              y = lastAlien.y + gapX;
+            }
+          }
+          this.aliens.push(new Alien(x, y, this.image, this.p5, pod))
+        })
+      }
     }
 
     checkCollision(x: number, y: number): boolean {

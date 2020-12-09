@@ -38,12 +38,17 @@ class Player {
     this.updateBullets();
   }
 
+  addScore(): void {
+    this.score = this.score + 1;
+  }
+
   updateBullets(): void {
 
     for (let i = this.bullets.length - 1; i >= 0; i--) {
       this.bullets[i].update();
       if (this.hasHitAlien(this.bullets[i])) {
         this.bullets.splice(i, 1);
+        this.addScore();
         break;
       } else if (this.bullets[i].isOffScreen()) {
         this.bullets.splice(i, 1);
@@ -67,6 +72,8 @@ class Player {
   draw(): void {
     this.p5.image(this.image, this.x, this.y, this.image.width / 20, this.image.height / 20);
     this.drawBullets();
+    this.drawLives();
+    this.drawScore();
   }
 
   drawBullets(): void {
@@ -85,10 +92,10 @@ class Player {
   }
 
   drawScore(): void {
-    this.p5.text("SCORE", 50, 25);
+    this.p5.text("SCORE", 1250, 25);
     this.p5.push();
     this.p5.fill(100, 255, 100);
-    this.p5.text(this.score, 110, 25);
+    this.p5.text(this.score, 1310, 25);
     this.p5.pop();
   }
 

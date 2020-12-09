@@ -31,6 +31,8 @@ class Invaders {
     }
 
     update(player: Player): void {
+      // do something with global.pods;
+
       for (const alien of this.aliens) {
         if (this.direction == 0) {
           alien.x += this.speed;

@@ -213,6 +213,9 @@ class Invaders {
       for (const alien of this.aliens) {
         alien.draw();
       }
+      for (const bullet of this.bullets) {
+        this.p5.rect(bullet.x, bullet.y, 3, 10);
+      }
     }
 }
 

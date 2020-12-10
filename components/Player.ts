@@ -60,6 +60,12 @@ class Player {
     return this.invaders.checkCollision(bullet.x, bullet.y);
   }
 
+  bulletHit(): void {
+    if (this.lives > 0) {
+      this.lives--;
+    }
+  }
+
   constrain(): void {
     if (this.x <= 0) {
       this.x = 0;
@@ -106,6 +112,12 @@ class Player {
     this.isMovingLeft = false;
     this.isMovingRight = true;
   }
+
+  stop(): void {
+    this.isMovingLeft = false;
+    this.isMovingRight = false;
+  }
+
   shoot(): void {
     this.bullets.push(new PlayerBullet(this.x + 12, this.y, this.p5));
   }

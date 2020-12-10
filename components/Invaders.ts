@@ -30,14 +30,12 @@ class Invaders {
       this.bullets = [];
       this.speed = 0.2;
       this.pods = pods;
-      this.createAliens();
 
       // to make sure the aliens dont spam
       this.timeSinceLastBullet = 0;
     }
 
     update(player: Player): void {
-
       this.updateAliens();
 
       for (const alien of this.aliens) {
@@ -61,10 +59,6 @@ class Invaders {
       }
 
       this.timeSinceLastBullet++;
-
-      if (this.aliens.length == 0) {
-        this.nextLevel();
-      }
     }
 
     hasChangedDirection(): boolean {
@@ -121,30 +115,10 @@ class Invaders {
       return allXPositions
     }
 
-    createAliens(): void {
-      let y = 80;
-
-      const maxX = this.p5.width - 200;
-      const minX = 300;
-      const gapX = 50;
-      const perRow = Math.ceil((maxX - minX) / gapX);
-      const rows = Math.ceil(this.pods.length / perRow);
-      const xPos = (index: number): number => minX + (index % perRow)* gapX
-
-
-      for (let i = 0; i < rows; i++) {
-        this.pods.forEach((pod, index) => {
-          this.aliens.push(new Alien(xPos(index), y, this.alienImages, this.p5, pod));
-        })
-        y += 50;
-      }
-    }
-
     updateAliens(): void {
       let y = 80;
-
-      const maxX = this.p5.width - 200;
-      const minX = 300;
+      const maxX = this.p5.width - 100;
+      const minX = 100;
       const gapX = 50;
 
       const newPods: K8sApi.Pod[] = []
@@ -158,13 +132,13 @@ class Invaders {
       })
 
       const podIds = this.pods.map((p) => p.getId());
-
       this.aliens.forEach((alien, index) => {
         if (!podIds.includes(alien.pod.getId())) {
           this.aliens.splice(index, 1);
         }
       })
 
+      newPods.sort(() => Math.random() - 0.5);
       if(newPods.length > 0) {
         let x = minX;
         newPods.forEach((pod) => {
@@ -187,7 +161,7 @@ class Invaders {
         const currentAlien = this.aliens[i];
         // the numbers are hard-coded for the width of the image
         if (this.p5.dist(x, y, currentAlien.x + 15.5, currentAlien.y + 12) < 10) {
-          currentAlien.pod.delete();
+          currentAlien.bulletHit();
           return true;
         }
       }
@@ -205,7 +179,7 @@ class Invaders {
       for (let i = this.bullets.length - 1; i >= 0; i--) {
         this.bullets[i].y += 2;
         if (this.bullets[i].hasHit(player)) {
-          player.lives--;
+          player.bulletHit();
           this.bullets.splice(i, 1);
         }
       }

@@ -22,6 +22,9 @@ const ClusterPage = (): JSX.Element => {
     <div className="TabLayout">
       <main>
         <div className="ItemListLayout flex column">
+          <div className="header flex gaps align-center">
+            <h5>Space Invaders</h5>
+          </div>
           <Game pods={podsStore.items} />
         </div>
       </main>

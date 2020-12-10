@@ -62,7 +62,7 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
     document.addEventListener("keydown", bind);
     keyboardEvenListener = bind;
 
-    for (let i = 0; i < p.windowWidth / 10; i++) {
+    for (let i = 0; i < p.width / 20; i++) {
       particles.push(new Particle(p));
     }
   }
@@ -80,6 +80,10 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
     player.update();
     player.draw();
 
+    if (player.score > invaders.aliens.length) {
+      invaders.nextLevel();
+    }
+
     if (player.lives == 0) {
       p.textFont("Courier New");
       p.textSize(100);
@@ -89,6 +93,7 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
       p.fill("rgba(255,255,255,1)");
       p.textSize(20);
       p.text("CMD/Ctrl + R to restart", container.offsetWidth / 2 - 150, container.clientHeight / 2 + 30);
+      player.stop();
     }
 
     if (enableParticles) {

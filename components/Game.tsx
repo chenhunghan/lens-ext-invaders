@@ -23,21 +23,30 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
 
   let invaders: Invaders;
   let player: Player;
-
   let enableParticles = false;
+  let lastMouseTarget: EventTarget;
 
   const setup = () => {
     const container = document.getElementById("p5_canvas_container");
     const canvas = p.createCanvas(container.offsetWidth, container.clientHeight + 100);
     canvas.parent(container);
     canvas.style("position", "relative");
+    canvas.attribute("tabindex", "1");
     p.frameRate(24);
     invaders = new Invaders({
       greenAlien, yellowAlien, orangeAlien, redAlien
     }, p, pods);
     player = new Player(playerImage, p, invaders);
 
+    document.addEventListener("mousedown", (event) => {
+      lastMouseTarget = event.target;
+    }, false);
+
+
     const bind = ({ code }: { code: string }) => {
+      if (lastMouseTarget !== canvas.elt) {
+        return;
+      }
       console.info("code", code)
       switch (code) {
       case "ArrowRight":
@@ -80,8 +89,10 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
     player.update();
     player.draw();
 
-    if (player.score > invaders.aliens.length) {
-      invaders.nextLevel();
+    if (player.score > (invaders.aliens.length * player.level)) {
+      invaders.aliens = [];
+      invaders.speed += 0.4;
+      player.level += 1;
     }
 
     if (player.lives == 0) {

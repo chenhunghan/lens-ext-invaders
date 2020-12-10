@@ -7,7 +7,7 @@ class PlayerBullet extends Bullet {
   }
 
   update(): void {
-    this.y -= 6;
+    this.y -= 12;
   }
 }
 

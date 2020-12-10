@@ -12,6 +12,7 @@ class Player {
   p5: p5;
   invaders: Invaders;
   lives: number;
+  level: number;
   score: number;
 
   constructor(shooterImage: p5.Image, p5: p5, invaders: Invaders) {
@@ -25,6 +26,7 @@ class Player {
     this.invaders = invaders;
     this.lives = 3;
     this.score = 0;
+    this.level = 1;
   }
 
   update(): void {
@@ -78,6 +80,7 @@ class Player {
     this.p5.image(this.image, this.x, this.y, this.image.width / 10, this.image.height / 10);
     this.drawBullets();
     this.drawLives();
+    this.drawLevel();
     this.drawScore();
   }
 
@@ -94,6 +97,14 @@ class Player {
     for (let i = 0; i < this.lives; i++) {
       this.p5.image(this.image, 100 + i * 30, 10, this.image.width / 20, this.image.height / 20);
     }
+  }
+
+  drawLevel(): void {
+    this.p5.text("LEVEL", this.p5.width - 200, 25);
+    this.p5.push();
+    this.p5.fill(100, 255, 100);
+    this.p5.text(this.level, this.p5.width - 150, 25);
+    this.p5.pop();
   }
 
   drawScore(): void {

@@ -10,6 +10,8 @@ class Alien {
   p5: p5
   pod: K8sApi.Pod;
   hits: number;
+  width: number;
+  height: number;
 
   constructor(x: number, y: number, alienImages: AlienImages, p5: p5, pod: K8sApi.Pod) {
     this.x = x;
@@ -18,6 +20,8 @@ class Alien {
     this.p5 = p5;
     this.pod = pod
     this.hits = 0;
+    this.width = alienImages.greenAlien.width / 20;
+    this.height = alienImages.greenAlien.height / 20;
   }
 
   bulletHit(): number {
@@ -39,7 +43,7 @@ class Alien {
     } else {
       image = this.alienImages.orangeAlien
     }
-    image && this.p5.image(image, this.x, this.y, image.width / 20, image.height / 20);
+    image && this.p5.image(image, this.x, this.y, this.width, this.height);
 
     const name = this.pod.getName();
     if (name && name.length > 7) {

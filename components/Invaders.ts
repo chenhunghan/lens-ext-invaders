@@ -160,7 +160,7 @@ class Invaders {
       for (let i = this.aliens.length - 1; i >= 0; i--) {
         const currentAlien = this.aliens[i];
         // the numbers are hard-coded for the width of the image
-        if (this.p5.dist(x, y, currentAlien.x + 15.5, currentAlien.y + 12) < 10) {
+        if (this.p5.dist(x, y, currentAlien.x + (currentAlien.width / 2), currentAlien.y + (currentAlien.height / 2)) < currentAlien.width / 2) {
           currentAlien.bulletHit();
           return true;
         }
@@ -177,7 +177,7 @@ class Invaders {
 
     updateBullets(player: Player): void {
       for (let i = this.bullets.length - 1; i >= 0; i--) {
-        this.bullets[i].y += 2;
+        this.bullets[i].y += 4;
         if (this.bullets[i].hasHit(player)) {
           player.bulletHit();
           this.bullets.splice(i, 1);

@@ -1,10 +1,9 @@
 import p5 from "p5";
-import { Image } from "./Alien";
 import PlayerBullet from "./PlayerBullet"
 import Invaders from "./Invaders";
 
 class Player {
-  image: Image;
+  image: p5.Image;
   x: number;
   y: number;
   isMovingLeft: boolean;
@@ -15,7 +14,7 @@ class Player {
   lives: number;
   score: number;
 
-  constructor(shooterImage: Image, p5: p5, invaders: Invaders) {
+  constructor(shooterImage: p5.Image, p5: p5, invaders: Invaders) {
     this.image = shooterImage;
     this.isMovingLeft = false;
     this.isMovingRight = false;

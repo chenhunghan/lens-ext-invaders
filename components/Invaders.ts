@@ -1,4 +1,4 @@
-import Alien, { Image } from "./Alien";
+import Alien from "./Alien";
 import p5 from "p5";
 import AlienBullet from "./AlienBullet";
 import Bullet from "./Bullet";
@@ -6,10 +6,13 @@ import Player from "./Player";
 import { K8sApi } from "@k8slens/extensions";
 import { IObservableArray } from "mobx";
 
+type AlienImages = {
+  greenAlien: p5.Image, yellowAlien: p5.Image, orangeAlien: p5.Image, redAlien: p5.Image
+}
 
 class Invaders {
 
-    image: Image;
+    alienImages: AlienImages;
     direction: number;
     y: number;
     aliens: Array<Alien> = [];
@@ -19,8 +22,8 @@ class Invaders {
     p5: p5;
     pods: Array<K8sApi.Pod>;
 
-    constructor(image: Image, p5: p5, pods: IObservableArray<K8sApi.Pod>) {
-      this.image = image;
+    constructor(alienImages: AlienImages, p5: p5, pods: IObservableArray<K8sApi.Pod>) {
+      this.alienImages = alienImages;
       this.direction = 0;
       this.y = 40;
       this.p5 = p5;
@@ -47,7 +50,7 @@ class Invaders {
       this.updateBullets(player);
 
       if (this.hasChangedDirection()) {
-        //this.moveAlienDown();
+        this.moveAlienDown();
       }
 
       if (this.timeSinceLastBullet >= 40) {
@@ -131,7 +134,7 @@ class Invaders {
 
       for (let i = 0; i < rows; i++) {
         this.pods.forEach((pod, index) => {
-          this.aliens.push(new Alien(xPos(index), y, this.image, this.p5, pod));
+          this.aliens.push(new Alien(xPos(index), y, this.alienImages, this.p5, pod));
         })
         y += 50;
       }
@@ -172,7 +175,7 @@ class Invaders {
               y = lastAlien.y + gapX;
             }
           }
-          this.aliens.push(new Alien(x, y, this.image, this.p5, pod))
+          this.aliens.push(new Alien(x, y, this.alienImages, this.p5, pod))
         })
       }
     }
@@ -213,4 +216,5 @@ class Invaders {
     }
 }
 
+export { AlienImages }
 export default Invaders

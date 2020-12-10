@@ -16,14 +16,15 @@ const particles: Array<Particle> = [];
 const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
 
   const playerImage = p.loadImage("https://i.imgur.com/cCmEvHN.png");
-  const alienImage = p.loadImage("https://i.imgur.com/fqeDYa0.png");
+  const greenAlien = p.loadImage("https://i.imgur.com/fqeDYa0.png");
+  const redAlien = p.loadImage("https://i.imgur.com/iHKEnRq.png");
+  const yellowAlien = p.loadImage("https://i.imgur.com/lVEg9GG.png");
+  const orangeAlien = p.loadImage("https://i.imgur.com/LRYWNG0.png");
 
   let invaders: Invaders;
   let player: Player;
 
   let enableParticles = false;
-
-
 
   const setup = () => {
     const container = document.getElementById("p5_canvas_container");
@@ -31,7 +32,9 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
     canvas.parent(container);
     canvas.style("position", "relative");
     p.frameRate(24);
-    invaders = new Invaders(alienImage, p, pods);
+    invaders = new Invaders({
+      greenAlien, yellowAlien, orangeAlien, redAlien
+    }, p, pods);
     player = new Player(playerImage, p, invaders);
 
     const bind = ({ code }: { code: string }) => {

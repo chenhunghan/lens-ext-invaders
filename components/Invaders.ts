@@ -116,7 +116,6 @@ class Invaders {
     }
 
     updateAliens(): void {
-      let y = 80;
       const maxX = this.p5.width - 100;
       const minX = 100;
       const gapX = 50;
@@ -138,10 +137,12 @@ class Invaders {
         }
       })
 
+      const empty = this.aliens.length === 0;
       newPods.sort(() => Math.random() - 0.5);
-      if(newPods.length > 0) {
-        let x = minX;
+      if (empty) {
         newPods.forEach((pod) => {
+          let y = 80;
+          let x = minX;
           const lastAlien = this.aliens[this.aliens.length - 1];
           if (lastAlien) {
             x = lastAlien.x + gapX;
@@ -151,8 +152,22 @@ class Invaders {
               y = lastAlien.y + gapX;
             }
           }
-          this.aliens.push(new Alien(x, y, this.alienImages, this.p5, pod))
+          if (this.aliens.length < 100) {
+            this.aliens.push(new Alien(x, y, this.alienImages, this.p5, pod))
+          }
         })
+      } else {
+        const pod = newPods[0]
+        if (!pod) {
+          return
+        }
+        const alien = this.aliens[Math.floor(Math.random() * this.aliens.length)];
+        const aliensOnSameRow = this.aliens.filter((a) => a.y === alien.y)
+        if (!aliensOnSameRow.find((a) => a.x >= (alien.x - (gapX + 3)) && a.x < alien.x && (alien.x - gapX) > minX)) {
+          if (alien.x - gapX > minX) {
+            this.aliens.push(new Alien(alien.x - gapX, alien.y, this.alienImages, this.p5, pod))
+          }
+        }
       }
     }
 
@@ -169,7 +184,7 @@ class Invaders {
     }
 
     makeABottomAlienShoot(bottomAliens: Array<Alien>): void {
-      const shootingAlien = this.p5.random(bottomAliens);
+      const shootingAlien = this.p5.random(bottomAliens.filter((a) => a.hits === 0));
       const bullet = new AlienBullet(shootingAlien.x + 10, shootingAlien.y + 10, this.p5);
       this.bullets.push(bullet);
       this.timeSinceLastBullet = 0;

@@ -18,6 +18,8 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
   let player: Player;
   let enableParticles = false;
   let lastMouseTarget: EventTarget;
+  let started = false;
+  const gameImage = p.loadImage("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/11a10a01-ac23-4fea-ad5a-b51f53084159/d5eu5dw-11a48688-3762-4f92-ba46-ebf94abe51b1.png/v1/fill/w_900,h_389,strp/space_invaders_logo__us__by_ringostarr39_d5eu5dw-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3siaGVpZ2h0IjoiPD0zODkiLCJwYXRoIjoiXC9mXC8xMWExMGEwMS1hYzIzLTRmZWEtYWQ1YS1iNTFmNTMwODQxNTlcL2Q1ZXU1ZHctMTFhNDg2ODgtMzc2Mi00ZjkyLWJhNDYtZWJmOTRhYmU1MWIxLnBuZyIsIndpZHRoIjoiPD05MDAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.0wP1LBCQjWzqUQ5czHR2NjUv9iaiB2lUp_y-d9FuX-8");
 
   const setup = () => {
     const playerImage = p.loadImage("https://i.imgur.com/cCmEvHN.png");
@@ -38,14 +40,15 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
 
     document.addEventListener("mousedown", (event) => {
       lastMouseTarget = event.target;
+      if (event.target === canvas.elt) {
+        started = true;
+      }
     }, false);
-
 
     const bind = ({ code }: { code: string }) => {
       if (lastMouseTarget !== canvas.elt) {
         return;
       }
-      console.info("code", code)
       switch (code) {
       case "ArrowRight":
         player.moveRight()
@@ -81,11 +84,17 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
   p.draw = () => {
     p.background(0);
 
-    invaders.update(player);
-    invaders.draw();
-
-    player.update();
-    player.draw();
+    if (started) {
+      invaders.update(player);
+      invaders.draw();
+      player.update();
+      player.draw();
+    } else {
+      p.image(gameImage, p.width / 2 - 200, 250, 400, 200);
+      p.textSize(24);
+      p.fill("rgba(0,255,0,1)");
+      p.text("click to start", p.width / 2 - 60, 500);
+    }
 
     if (player.score > (invaders.aliens.length * player.level)) {
       invaders.aliens = [];

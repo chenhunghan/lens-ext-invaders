@@ -35,6 +35,9 @@ class Player {
     } else if (this.isMovingLeft) {
       this.x -= 5;
     }
+    if(this.invaders.aliens.find((a) => a.y >= this.p5.height)) {
+      this.lives = 0;
+    }
     this.constrain();
     this.updateBullets();
   }

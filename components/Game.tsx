@@ -14,19 +14,17 @@ let keyboardEvenListener: (ev: KeyboardEvent) => void
 const particles: Array<Particle> = [];
 
 const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
-
-  const playerImage = p.loadImage("https://i.imgur.com/cCmEvHN.png");
-  const greenAlien = p.loadImage("https://i.imgur.com/fqeDYa0.png");
-  const redAlien = p.loadImage("https://i.imgur.com/iHKEnRq.png");
-  const yellowAlien = p.loadImage("https://i.imgur.com/lVEg9GG.png");
-  const orangeAlien = p.loadImage("https://i.imgur.com/LRYWNG0.png");
-
   let invaders: Invaders;
   let player: Player;
   let enableParticles = false;
   let lastMouseTarget: EventTarget;
 
   const setup = () => {
+    const playerImage = p.loadImage("https://i.imgur.com/cCmEvHN.png");
+    const greenAlien = p.loadImage("https://i.imgur.com/fqeDYa0.png");
+    const redAlien = p.loadImage("https://i.imgur.com/iHKEnRq.png");
+    const yellowAlien = p.loadImage("https://i.imgur.com/lVEg9GG.png");
+    const orangeAlien = p.loadImage("https://i.imgur.com/LRYWNG0.png");
     const container = document.getElementById("p5_canvas_container");
     const canvas = p.createCanvas(container.offsetWidth, container.clientHeight + 100);
     canvas.parent(container);

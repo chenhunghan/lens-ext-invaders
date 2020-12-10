@@ -34,7 +34,6 @@ class Alien {
         image = this.alienImages.greenAlien
       }
       if ("waiting" in states) {
-        console.log("states", states)
         image = this.alienImages.yellowAlien
       }
       if ("terminated" in states) {

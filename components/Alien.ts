@@ -2,7 +2,6 @@ import p5 from "p5";
 import { K8sApi } from "@k8slens/extensions";
 import { AlienImages } from "./Invaders";
 
-
 class Alien {
 
   x: number

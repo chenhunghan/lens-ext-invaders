@@ -81,7 +81,14 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
     player.draw();
 
     if (player.lives == 0) {
-      setup();
+      p.textFont("Courier New");
+      p.textSize(100);
+      p.fill("rgba(0,255,0,1)");
+      const container = document.getElementById("p5_canvas_container");
+      p.text("GAME OVER ", container.offsetWidth / 2 - 220, container.clientHeight / 2);
+      p.fill("rgba(255,255,255,1)");
+      p.textSize(20);
+      p.text("CMD/Ctrl + R to restart", container.offsetWidth / 2 - 150, container.clientHeight / 2 + 30);
     }
 
     if (enableParticles) {

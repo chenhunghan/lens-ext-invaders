@@ -27,7 +27,7 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
 
   const setup = () => {
     const container = document.getElementById("p5_canvas_container");
-    const canvas = p.createCanvas(container.offsetWidth, container.clientHeight);
+    const canvas = p.createCanvas(container.offsetWidth, container.clientHeight + 100);
     canvas.parent(container);
     canvas.style("position", "relative");
     p.frameRate(24);

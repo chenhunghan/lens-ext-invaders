@@ -30,9 +30,9 @@ class Player {
 
   update(): void {
     if (this.isMovingRight) {
-      this.x += 1;
+      this.x += 5;
     } else if (this.isMovingLeft) {
-      this.x -= 1;
+      this.x -= 5;
     }
     this.constrain();
     this.updateBullets();

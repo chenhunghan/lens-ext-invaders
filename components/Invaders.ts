@@ -152,6 +152,8 @@ class Invaders {
         const alien = this.aliens.find((a) => a.pod.getId() === pod.getId())
         if(!alien) {
           newPods.push(pod);
+        } else {
+          alien.pod = pod;
         }
       })
 

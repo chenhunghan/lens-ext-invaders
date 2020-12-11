@@ -111,13 +111,14 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
 
     if (player.lives == 0) {
       p.textFont("Courier New");
-      p.textSize(100);
+      p.textSize(p.width / 20);
       p.fill("rgba(0,255,0,1)");
-      const container = document.getElementById("p5_canvas_container");
-      p.text("GAME OVER ", container.offsetWidth / 2 - 220, container.clientHeight / 2);
+      const x = p.width / 2;
+      const y = p.width / 2.5;
+      p.text("GAME OVER ", x, y);
       p.fill("rgba(255,255,255,1)");
-      p.textSize(20);
-      p.text("CMD/Ctrl + R to restart", container.offsetWidth / 2 - 150, container.clientHeight / 2 + 30);
+      p.textSize(p.width / 80);
+      p.text("CMD/Ctrl + R to Restart", x - p.width / 80, y + p.width / 40);
       player.stop();
     }
 

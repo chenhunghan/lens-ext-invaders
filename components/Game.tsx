@@ -5,6 +5,7 @@ import Invaders from "./Invaders";
 import Player from "./Player";
 import { IObservableArray } from "mobx";
 import Particle from "./Particle";
+import { configMapsStore } from "@k8slens/extensions/dist/src/renderer/components/+config-maps/config-maps.store";
 
 type Props = { pods: IObservableArray<K8sApi.Pod> }
 
@@ -53,7 +54,7 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
     mouseEvenListener = starter;
 
     const bind = ({ code }: { code: string }) => {
-      if (code == "KeyP") {
+      if (code == "Backquote") {
         // for easier screen record w/o mouse
         started = !started;
         return;

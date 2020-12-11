@@ -1,5 +1,10 @@
 # Start Invading Clusters
 
+⚠️⚠️⚠️
+Please don't play this game on your production cluster. 😅
+Alien 👾 = pod on cluster.
+⚠️⚠️⚠️
+
 ![screencast](screencast_256.gif)
 
 ## Install

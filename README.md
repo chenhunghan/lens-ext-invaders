@@ -1,6 +1,6 @@
 # Start Invading Clusters
 
-![screencast](screencast.gif)
+![screencast](screencast_256.gif)
 
 ## Install
 

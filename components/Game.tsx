@@ -71,7 +71,7 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
 
     document.addEventListener("keydown", bind);
     keyboardEvenListener = bind;
-
+    
     for (let i = 0; i < p.width / 20; i++) {
       particles.push(new Particle(p));
     }
@@ -81,7 +81,7 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
     setup();
   };
 
-  p.draw = () => {
+  const draw = () => {
     p.background(0);
 
     if (started) {
@@ -90,10 +90,17 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
       player.update();
       player.draw();
     } else {
-      p.image(gameImage, p.width / 2 - 200, 250, 400, 200);
-      p.textSize(24);
+      const imageWidth = p.width / 3;
+      const imageHeight = p.width / 6;
+      const x = p.width / 2;
+      const y = p.width / 2;
+      const textSize = p.width / 50;
+      p.image(gameImage, x - imageWidth / 2, y - imageHeight - textSize * 5, imageWidth, imageHeight);
+      p.textSize(textSize);
       p.fill("rgba(0,255,0,1)");
-      p.text("click to start", p.width / 2 - 60, 500);
+      p.textFont("Courier New");
+      p.textAlign(p.CENTER)
+      p.text("CLICK TO START", x, y - textSize * 3);
     }
 
     if (player.score > (invaders.aliens.length * player.level)) {
@@ -121,7 +128,16 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
         particles[i].joinParticles(particles.slice(i));
       }
     }
+  }
+  p.draw = () => {
+    draw();
   };
+
+  window.addEventListener("resize", () => {
+    const container = document.getElementById("p5_canvas_container");
+    p.resizeCanvas(container.clientWidth, container.clientHeight);
+    draw();
+  })
 };
 
 const Game = memo(({ pods }: Props): JSX.Element => {

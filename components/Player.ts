@@ -22,7 +22,9 @@ class Player {
     this.bullets = [];
     this.p5 = p5;
     this.x = this.p5.width / 2;
-    this.y = this.p5.height - 40;
+    // there seems to be a bug of p5.height which won't update when window is being
+    // resize, so we use windowHeight to cal y instead. 
+    this.y = this.p5.windowHeight - Math.max(210, this.p5.windowHeight / 3.8);
     this.invaders = invaders;
     this.lives = 3;
     this.score = 0;
@@ -34,7 +36,10 @@ class Player {
       this.x += 5;
     } else if (this.isMovingLeft) {
       this.x -= 5;
+    } else {
+      this.x = this.p5.width / 2;
     }
+    this.y = this.p5.windowHeight - Math.max(210, this.p5.windowHeight / 3.8);
     if(this.invaders.aliens.find((a) => a.y >= this.p5.height)) {
       this.lives = 0;
     }

@@ -1,5 +1,5 @@
 import React, { memo, useState, useLayoutEffect } from "react"
-import { K8sApi, Component } from "@k8slens/extensions";
+import { K8sApi } from "@k8slens/extensions";
 import p5 from "p5";
 import Invaders from "./Invaders";
 import Player from "./Player";
@@ -9,6 +9,8 @@ import Particle from "./Particle";
 type Props = { pods: IObservableArray<K8sApi.Pod> }
 
 let keyboardEvenListener: (ev: KeyboardEvent) => void
+let mouseEvenListener: (ev: Event) => void;
+let windowResizeEvenListener: (ev: Event) => void;
 
 // an array to add multiple particles
 const particles: Array<Particle> = [];
@@ -22,6 +24,9 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
   const gameImage = p.loadImage("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/11a10a01-ac23-4fea-ad5a-b51f53084159/d5eu5dw-11a48688-3762-4f92-ba46-ebf94abe51b1.png/v1/fill/w_900,h_389,strp/space_invaders_logo__us__by_ringostarr39_d5eu5dw-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3siaGVpZ2h0IjoiPD0zODkiLCJwYXRoIjoiXC9mXC8xMWExMGEwMS1hYzIzLTRmZWEtYWQ1YS1iNTFmNTMwODQxNTlcL2Q1ZXU1ZHctMTFhNDg2ODgtMzc2Mi00ZjkyLWJhNDYtZWJmOTRhYmU1MWIxLnBuZyIsIndpZHRoIjoiPD05MDAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.0wP1LBCQjWzqUQ5czHR2NjUv9iaiB2lUp_y-d9FuX-8");
 
   const setup = () => {
+    keyboardEvenListener && document.removeEventListener("keydown", keyboardEvenListener);
+    mouseEvenListener && document.removeEventListener("mousedown", mouseEvenListener);
+    windowResizeEvenListener && document.removeEventListener("resize", windowResizeEvenListener);
     const playerImage = p.loadImage("https://i.imgur.com/cCmEvHN.png");
     const greenAlien = p.loadImage("https://i.imgur.com/fqeDYa0.png");
     const redAlien = p.loadImage("https://i.imgur.com/iHKEnRq.png");
@@ -38,14 +43,21 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
     }, p, pods);
     player = new Player(playerImage, p, invaders);
 
-    document.addEventListener("mousedown", (event) => {
+    const starter = (event: Event) => {
       lastMouseTarget = event.target;
       if (event.target === canvas.elt) {
         started = true;
       }
-    }, false);
+    }
+    document.addEventListener("mousedown", starter, false);
+    mouseEvenListener = starter;
 
     const bind = ({ code }: { code: string }) => {
+      if (code == "KeyP") {
+        // for easier screen record w/o mouse
+        started = !started;
+        return;
+      }
       if (lastMouseTarget !== canvas.elt) {
         return;
       }
@@ -67,6 +79,7 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
       default:
         break;
       }
+      
     };
 
     document.addEventListener("keydown", bind);
@@ -134,11 +147,14 @@ const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
     draw();
   };
 
-  window.addEventListener("resize", () => {
+  const resizer = () => {
     const container = document.getElementById("p5_canvas_container");
     p.resizeCanvas(container.clientWidth, container.clientHeight);
     draw();
-  })
+  }
+
+  window.addEventListener("resize", resizer);
+  windowResizeEvenListener = resizer;
 };
 
 const Game = memo(({ pods }: Props): JSX.Element => {
@@ -146,7 +162,6 @@ const Game = memo(({ pods }: Props): JSX.Element => {
   const [init, setInit] = useState(false);
   useLayoutEffect(() => {
     if (!init) {
-      keyboardEvenListener && document.removeEventListener("keydown", keyboardEvenListener)
       new p5(sketch(pods));
       console.info("👾 P5 Canvas Injected");
       setInit(true)

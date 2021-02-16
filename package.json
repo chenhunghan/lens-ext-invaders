@@ -1,6 +1,6 @@
 {
 	"name": "@lensapp/lens-ext-invaders",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "Space Invaders for Lens",
 	"publisher": "IRATA Inc",
 	"main": "dist/main.js",

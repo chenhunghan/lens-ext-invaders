@@ -56,7 +56,6 @@ jobs:
       run: |
         GITHUB_REF=${{ github.ref }}
         GITHUB_TAG=${GITHUB_REF#refs/tags/v}
-        echo "$GITHUB_REF -> $GITHUB_TAG"
         echo "GITHUB_TAG=$GITHUB_TAG" >> $GITHUB_ENV
 
     - name: Upload GitHub assets

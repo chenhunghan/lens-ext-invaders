@@ -42,7 +42,9 @@ jobs:
         yarn build
 
     - name: Create tarball from package
-      run: yarn pack
+      run: |
+        ls dist
+        yarn pack
 
     - name: Get version
       id: version

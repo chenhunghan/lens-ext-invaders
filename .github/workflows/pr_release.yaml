@@ -43,13 +43,12 @@ jobs:
 
     - name: Create tarball from package
       run: |
-        ls dist
-        yarn pack
+        npm pack
 
     - name: Get version
       id: version
       run: |
-        VERSION=v$(node -p -e "require('./package.json').version")
+        VERSION=$(node -p -e "require('./package.json').version")
         echo "::set-output name=value::$VERSION"
 
     - name: Create GitHub release
@@ -58,8 +57,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.version.outputs.value }}
-        release_name: ${{ steps.version.outputs.value }}
+        tag_name: "v${{ steps.version.outputs.value }}"
+        release_name: "v${{ steps.version.outputs.value }}"
         draft: false
 
     - name: Upload GitHub assets

@@ -1,4 +1,4 @@
-import { LensRendererExtension, Interface, Component } from "@k8slens/extensions";
+import { LensRendererExtension, Component } from "@k8slens/extensions";
 import React from "react"
 
 import ClusterPage from "./components/ClusterPage";

@@ -1424,10 +1424,10 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@k8slens/extensions@4.0.8":
-  version "4.0.8"
-  resolved "https://registry.yarnpkg.com/@k8slens/extensions/-/extensions-4.0.8.tgz#10f7460609304ef9fb7304a74be7c930ad15b02e"
-  integrity sha512-n7cetXGgD8NVo9/PtYv0n8D6GF7BfXveznGye2C32+R/x0NMcDN8KmN2KK/0MhOpZ0Z9B9U7HvlR5WNcffUVjA==
+"@k8slens/extensions@4.2.1":
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@k8slens/extensions/-/extensions-4.2.1.tgz#5744a4dd1ead3c8b1888bec6fb099de0c676937a"
+  integrity sha512-/tttsgNqV3uDxfAixMNx+anKvzyAhLgEzrBM3XZH3RYbLlATkps8X0R4bkhg9IRvkJh2i9tem7s1hkuL7efKwg==
   dependencies:
     "@material-ui/core" "*"
     "@types/node" "*"

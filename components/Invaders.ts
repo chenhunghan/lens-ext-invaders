@@ -3,8 +3,9 @@ import p5 from "p5";
 import AlienBullet from "./AlienBullet";
 import Bullet from "./Bullet";
 import Player from "./Player";
-import { K8sApi } from "@k8slens/extensions";
+import { Renderer } from "@k8slens/extensions";
 import { IObservableArray } from "mobx";
+import { KubeObjectMetadata } from "@k8slens/extensions/dist/src/common/k8s-api/kube-object";
 
 type AlienImages = {
   greenAlien: p5.Image, yellowAlien: p5.Image, orangeAlien: p5.Image, redAlien: p5.Image
@@ -20,9 +21,9 @@ class Invaders {
     speed: number;
     timeSinceLastBullet: number;
     p5: p5;
-    pods: Array<K8sApi.Pod>;
+    pods: Array<Renderer.K8sApi.KubeObject<KubeObjectMetadata, any, any>>;
 
-    constructor(alienImages: AlienImages, p5: p5, pods: IObservableArray<K8sApi.Pod>) {
+    constructor(alienImages: AlienImages, p5: p5, pods: IObservableArray<Renderer.K8sApi.KubeObject<KubeObjectMetadata, any, any>>) {
       this.alienImages = alienImages;
       this.direction = 0;
       this.y = 40;
@@ -120,8 +121,8 @@ class Invaders {
       const minX = 100;
       const gapX = 50;
 
-      const newPods: K8sApi.Pod[] = []
-      this.pods.forEach((pod: K8sApi.Pod) => {
+      const newPods: Renderer.K8sApi.Pod[] = []
+      this.pods.forEach((pod: Renderer.K8sApi.Pod) => {
         const alien = this.aliens.find((a) => a.pod.getId() === pod.getId())
         if(!alien) {
           newPods.push(pod);

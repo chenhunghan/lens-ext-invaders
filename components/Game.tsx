@@ -1,13 +1,14 @@
 import React, { memo, useState, useLayoutEffect } from "react"
-import { K8sApi } from "@k8slens/extensions";
+import { Renderer } from "@k8slens/extensions";
 import p5 from "p5";
 import Invaders from "./Invaders";
 import Player from "./Player";
 import { IObservableArray } from "mobx";
 import Particle from "./Particle";
-import { configMapsStore } from "@k8slens/extensions/dist/src/renderer/components/+config-maps/config-maps.store";
+// import { configMapsStore } from "@k8slens/extensions/dist/src/renderer/components/+config-maps/config-maps.store";
+import { KubeObjectMetadata } from "@k8slens/extensions/dist/src/common/k8s-api/kube-object";
 
-type Props = { pods: IObservableArray<K8sApi.Pod> }
+type Props = { pods: IObservableArray<Renderer.K8sApi.KubeObject<KubeObjectMetadata, any, any>> }
 
 let keyboardEvenListener: (ev: KeyboardEvent) => void
 let mouseEvenListener: (ev: Event) => void;
@@ -16,7 +17,7 @@ let windowResizeEvenListener: (ev: Event) => void;
 // an array to add multiple particles
 const particles: Array<Particle> = [];
 
-const sketch = (pods: IObservableArray<K8sApi.Pod>) => (p: p5) => {
+const sketch = (pods: IObservableArray<Renderer.K8sApi.KubeObject<KubeObjectMetadata, any, any>>) => (p: p5) => {
   let invaders: Invaders;
   let player: Player;
   let enableParticles = false;

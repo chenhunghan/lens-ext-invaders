@@ -1,5 +1,5 @@
 import p5 from "p5";
-import { K8sApi } from "@k8slens/extensions";
+import { Renderer } from "@k8slens/extensions";
 import { AlienImages } from "./Invaders";
 
 class Alien {
@@ -8,12 +8,12 @@ class Alien {
   y: number
   alienImages: AlienImages
   p5: p5
-  pod: K8sApi.Pod;
+  pod: Renderer.K8sApi.Pod;
   hits: number;
   width: number;
   height: number;
 
-  constructor(x: number, y: number, alienImages: AlienImages, p5: p5, pod: K8sApi.Pod) {
+  constructor(x: number, y: number, alienImages: AlienImages, p5: p5, pod: Renderer.K8sApi.Pod) {
     this.x = x;
     this.y = y;
     this.alienImages = alienImages;

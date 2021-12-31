@@ -1,6 +1,6 @@
-import { LensMainExtension } from "@k8slens/extensions";
+import { Renderer } from "@k8slens/extensions";
 
-export default class MainExtension extends LensMainExtension {
+export default class MainExtension extends Renderer.LensExtension {
     
   onActivate(): void {
     console.log("activated");

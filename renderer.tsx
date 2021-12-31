@@ -1,11 +1,11 @@
-import { LensRendererExtension, Component } from "@k8slens/extensions";
-import React from "react"
+import { Renderer } from "@k8slens/extensions";
+import React from "react";
 
 import ClusterPage from "./components/ClusterPage";
 
-const { Icon } = Component;
+const { Component: {Icon} } = Renderer;
 
-export default class RendererExtension extends LensRendererExtension {
+export default class RendererExtension extends Renderer.LensExtension {
 
   #clusterPageId = "space_invader_clusters_page";
   clusterPages = [

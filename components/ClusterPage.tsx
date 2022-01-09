@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react"
 import Game from "./Game"
-import { K8sApi } from "@k8slens/extensions";
+import { Renderer } from "@k8slens/extensions";
 
 const ClusterPage = (): JSX.Element => {
 
   console.info("🔥 Cluster page rendered");
 
-  const [podsStore] = useState(K8sApi.apiManager.getStore(K8sApi.podsApi))
+  const [podsStore] = useState(Renderer.K8sApi.apiManager.getStore(Renderer.K8sApi.podsApi))
 
   useEffect(() => {
     const ensure = async () => {

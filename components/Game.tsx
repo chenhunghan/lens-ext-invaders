@@ -5,7 +5,6 @@ import Invaders from "./Invaders";
 import Player from "./Player";
 import { IObservableArray } from "mobx";
 import Particle from "./Particle";
-// import { configMapsStore } from "@k8slens/extensions/dist/src/renderer/components/+config-maps/config-maps.store";
 import { KubeObjectMetadata } from "@k8slens/extensions/dist/src/common/k8s-api/kube-object";
 
 type Props = { pods: IObservableArray<Renderer.K8sApi.KubeObject<KubeObjectMetadata, any, any>> }
